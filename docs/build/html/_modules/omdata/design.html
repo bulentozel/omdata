@@ -1,0 +1,456 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>omdata.design &#8212; OMData 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for omdata.design</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;OpenMaker module for survey data schema.</span>
+
+<span class="sd">This module contains functions and classes which can be used an</span>
+<span class="sd">editing interface to a predesigned JSON schema.</span>
+
+<span class="sd">Todo:</span>
+<span class="sd">    * Do the Sphinx documentation</span>
+<span class="sd">    * Improve inplace editing methods.</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sys</span><span class="o">,</span><span class="nn">getopt</span>
+
+
+<div class="viewcode-block" id="inspect"><a class="viewcode-back" href="../../omdata.html#omdata.design.inspect">[docs]</a><span class="k">def</span> <span class="nf">inspect</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A command-line entry point in order to list major fields of an input schema.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">argv</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">argv</span> <span class="o">=</span> <span class="n">args</span>
+        
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fields-top&#39;</span><span class="p">,</span> <span class="s1">&#39;fields-all&#39;</span><span class="p">,</span> <span class="s1">&#39;fields-required&#39;</span><span class="p">,</span> <span class="s1">&#39;questions&#39;</span><span class="p">]</span>
+    <span class="n">help_msg</span> <span class="o">=</span> <span class="s1">&#39;inspect \{one of: </span><span class="si">{}</span><span class="s1"> \} -s &lt;schemafile&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+ 
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;inspect&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">argv</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="n">param</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">argv</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">schema_file</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">argv</span><span class="p">,</span><span class="s2">&quot;hs:&quot;</span><span class="p">,[</span><span class="s2">&quot;sfile=&quot;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">opt</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">opt</span> <span class="o">==</span> <span class="s1">&#39;-h&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">opt</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--sfile&quot;</span><span class="p">):</span> <span class="n">schema_file</span> <span class="o">=</span> <span class="n">arg</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">()</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">schema_file</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;fields-top&#39;</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">get_fields</span><span class="p">(</span><span class="n">main_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;fields-all&#39;</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">get_fields</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;fields-required&#39;</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">get_required_fields</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">param</span> <span class="o">==</span> <span class="s1">&#39;questions&#39;</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">get_questionaire_matches</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">help_msg</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_field_names"><a class="viewcode-back" href="../../omdata.html#omdata.design.get_field_names">[docs]</a><span class="k">def</span> <span class="nf">get_field_names</span><span class="p">(</span><span class="n">schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The method lists all of the fields of a given schema. It parses the entire schema in JSON format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A JSON object which describes the schema (default None).</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of of list of schemas.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A list of JSON schemas.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            OMSchemaUnknown: Raised if an unknown object type in the given schema is encountered.</span>
+<span class="sd">            OMSchemaKeyError: Raised if a corrupted key within the schema is encountered.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fields</span>
+
+        <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;And invalid schema has been encountered.&#39;</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="mi">201</span>
+            <span class="k">raise</span> <span class="n">SchemaInvalidType</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">]:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;$id&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">fields</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;array&#39;</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">:</span>
+            <span class="n">schemas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;An unknown object type encountered: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="mi">101</span>
+        <span class="k">raise</span> <span class="n">SchemaUnknownError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of of list of schemas.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`list` of :obj:`JSON`): A list of JSON schemas.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schemas</span><span class="p">:</span> <span class="k">return</span> <span class="n">fields</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">schemas</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="OMSchemaUnknown"><a class="viewcode-back" href="../../omdata.html#omdata.design.OMSchemaUnknown">[docs]</a><span class="k">class</span> <span class="nc">OMSchemaUnknown</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;OpenMaker data schema error for unknown object types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        code (:obj:`int`, optional): Error code.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        code (int): Exception error code.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span></div>
+
+<div class="viewcode-block" id="OMSchemaKeyError"><a class="viewcode-back" href="../../omdata.html#omdata.design.OMSchemaKeyError">[docs]</a><span class="k">class</span> <span class="nc">OMSchemaKeyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;OpenMaker data schema error for invalid key types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        code (:obj:`int`, optional): Error code.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        code (int): Exception error code.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span></div>
+
+
+<div class="viewcode-block" id="Schema"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema">[docs]</a><span class="k">class</span> <span class="nc">Schema</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A generic interface object for JSON Schemas of OpenMaker Project.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        schema_file (:obj:`string`): A file path to a JSON schema file.</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">schema_file</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A JSON object which describes the schema (default None).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_mappings</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="Schema.load"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method loads a schema from a JSON object.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            fname (:obj:`dict`): The JSON document in dictionary format.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_mappings</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+        
+<div class="viewcode-block" id="Schema.load_from_file"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema.load_from_file">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method loads a schema from a file path to a JSON schema file.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            fname (str): The file path.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if successful, False otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FileNotFoundError: Raised if a given file is not accessable.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_file</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_mappings</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="Schema.get_fields"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema.get_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">main_only</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of a given schema. It parses the entire </span>
+<span class="sd">            schema in JSON format.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A JSON object which describes the schema (default None).</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_mappings</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">main_only</span><span class="p">:</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="s1">&#39;properties&#39;</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="n">fields</span>
+        
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fmap</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">fields</span></div>
+
+    <span class="k">def</span> <span class="nf">_update_mappings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method calls the crawler for field, question and path matchings.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            It must be called everytime a non-empty schema is loaded.                    </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (Bool): Returns true when succeeded.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>            
+        <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schema</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_extract_fields_matching</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+<div class="viewcode-block" id="Schema.get_questionaire_matches"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema.get_questionaire_matches">[docs]</a>    <span class="k">def</span> <span class="nf">get_questionaire_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of a given schema. It parses the entire </span>
+<span class="sd">            schema in JSON format.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A JSON object which describes the schema (default None).</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;No schema found!. Load a schema first.&#39;</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="mi">102</span>
+            <span class="k">raise</span> <span class="n">OMSchemaUnknown</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;no&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fmap</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+    
+    <span class="k">def</span> <span class="nf">_extract_fields_matching</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fmap</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/items/properties/&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/items&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/properties/&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fmap</span><span class="p">[</span><span class="n">k</span> <span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">:</span><span class="n">q</span><span class="p">}</span>
+        <span class="k">return</span> <span class="kc">True</span>
+            
+        
+        
+<div class="viewcode-block" id="Schema.get_required_fields"><a class="viewcode-back" href="../../omdata.html#omdata.design.Schema.get_required_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_required_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all the required fields of a given schema. It parses the entire </span>
+<span class="sd">            schema in JSON format.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A JSON object which describes the schema (default None).</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">:</span> <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">required</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;required&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;required&#39;</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">required</span></div>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of of list of schemas.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`JSON`): A list of JSON schemas.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            OMSchemaUnknown: Raised if an unknown object type in the given schema is encountered.</span>
+<span class="sd">            OMSchemaKeyError: Raised if a corrupted key within the schema is encountered.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fields</span>
+
+        <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;And invalid schema has been encountered.&#39;</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="mi">201</span>
+            <span class="k">raise</span> <span class="n">OMSchemaKeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">]:</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;$id&#39;</span><span class="p">],</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">fields</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;array&#39;</span><span class="p">:</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">:</span>
+            <span class="n">schemas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;An unknown object type encountered: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="mi">101</span>
+        <span class="k">raise</span> <span class="n">OMSchemaUnknown</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;The method lists all of the fields of of list of schemas.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            schema (:obj:`list` of :obj:`JSON`): A list of JSON schemas.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:obj:`list` of :obj:`string`): list of field names.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">schemas</span><span class="p">:</span> <span class="k">return</span> <span class="n">fields</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">schemas</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Bulent Ozel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
