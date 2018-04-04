@@ -25,7 +25,7 @@ def inspect(args=None):
         argv = args
         
     params = ['fields-top', 'fields-all', 'fields-required', 'questions']
-    help_msg = 'inspect \{one of: {} \} -s <schemafile>'.format(params)
+    help_msg = 'inspect {} -s <schemafile>'.format(params)
  
     if len(argv) < 4:
         print(help_msg)
