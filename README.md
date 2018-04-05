@@ -14,7 +14,7 @@ Current version provides a set of command-line tools as well as a python module
 ```bash
 pip install omdata
 ```
-### After downloading the repository
+### Via its GitHub source 
 ```bash
 git clone https://github.com/bulentozel/omdata.git
 ```
@@ -35,22 +35,22 @@ pip install .
 om-json validate -q <jsonfile> -s <schemafile>
 ```
 
-* Inspecting top level major fields/dictionary entries of the data file:
+#### Inspecting top level major fields/dictionary entries of the data file:
 ```bash
 om-schema inspect fields-top -s <schemafile> 
 ```
 
-* Listing all -including the nested ones- fields of an expected data file:
+#### Listing all -including the nested ones- fields of an expected data file:
 ```bash
 om-schema inspect fields-all -s <schemafile> 
 ```
 
-* Listing all required fields of a json file to be generated:
+#### Listing all required fields of a json file to be generated:
 ```bash
 om-schema inspect fields-required -s <schemafile> 
 ```
 
-* Querying description of each fields:
+#### Querying description of each fields:
 ```bash
 om-schema inspect questions -s <schemafile> 
 ```
@@ -60,6 +60,7 @@ In the case of OpenMaker survey data implementation this corresponds to a query 
 ```python
 >>> import omdata
 ```
+#### For the details see the [Jupyter Notebook Tutorial](https://github.com/bulentozel/omdata/blob/master/tutorial.ipynb)
 
 ## ToDo
 
