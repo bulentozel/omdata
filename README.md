@@ -1,7 +1,7 @@
 OpenMaker Community Data Standardization
 ========================================
 
-It aims data standardization and interoperability between oinsight *(a set of data mining and machine learning functionalities developed under the [OpenMaker Project's](http://openmaker.eu/)*) modules and its third party clients.
+It aims data standardization and interoperability between oinsight modules and its third party clients *(oinsight is a set of data mining and machine learning functionalities developed under the [OpenMaker Project](http://openmaker.eu/))*.
 
 #### Current functionalities
 Current version provides a set of command-line tools as well as a python module 
