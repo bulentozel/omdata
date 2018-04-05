@@ -3,6 +3,7 @@ OpenMaker Community Data Standardization
 
 It aims data standardization and interoperability between oinsight *(a set of data mining and machine learning functionalities developed under the [OpenMaker Project's](http://openmaker.eu/)*) modules and its third party clients.
 
+#### Current functionalities
 Current version provides a set of command-line tools as well as a python module 
 * to be able to validate a JSON file against its predesigned schema
 * to be able to inspect and query the design of a JSON schema 
@@ -29,10 +30,31 @@ pip install .
 
 ### Command line tools
 
-Validating a json file against its schema
+* Validating a json file against its schema:
 ```bash
-validate -q <jsonfile> -s <schemafile>
+om-json validate -q <jsonfile> -s <schemafile>
 ```
+
+* Inspecting top level major fields/dictionary entries of the data file:
+```bash
+om-schema inspect fields-top -s <schemafile> 
+```
+
+* Listing all -including the nested ones- fields of an expected data file:
+```bash
+om-schema inspect fields-all -s <schemafile> 
+```
+
+* Listing all required fields of a json file to be generated:
+```bash
+om-schema inspect fields-required -s <schemafile> 
+```
+
+* Querying description of each fields:
+```bash
+om-schema inspect questions -s <schemafile> 
+```
+In the case of OpenMaker survey data implementation this corresponds to a query to see the mapping between a survey question and the corresponding json entry.
 
 ### In other applications
 ```python
