@@ -2,9 +2,9 @@ OpenMaker Community Data Standardization
 ========================================
 
 It aims data standardization and interoperability between oinsight
-modules and its third party clients *(oinsight is a set of data mining
-and machine learning functionalities developed under the OpenMaker
-Project: http://openmaker.eu/ )*.
+modules and its third party clients. ``oinsight`` is a set of data
+mining and machine learning functionalities developed under the
+OpenMaker Project: http://openmaker.eu/
 
 Current functionalities
 -----------------------
@@ -44,11 +44,12 @@ Usage
 Command line tools
 ~~~~~~~~~~~~~~~~~~
 
--  Validating a json file against its schema:
+Validating a json file against its schema:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   .. code:: bash
+.. code:: bash
 
-       om-json validate -q <jsonfile> -s <schemafile>
+    om-json validate -q <jsonfile> -s <schemafile>
 
 Inspecting top level major fields/dictionary entries of the data file:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -99,11 +100,6 @@ ToDo
 -  Editing functionalities on a given schema file
 -  Update test suits for command-line entry points.
 
-+-----------------+
-| Learn more      |
-| about the       |
-| OpenMaker       |
-| project:        |
-| http://openmake |
-| r.eu/.          |
-+-----------------+
++--------------------------------------------------------------+
+| Learn more about the OpenMaker project: http://openmaker.eu/ |
++--------------------------------------------------------------+
