@@ -1,8 +1,7 @@
+__version__ = '0.1.3'
 __title__ = 'omdata'
 __description__ = 'OpenMaker survey data schema editor.'
 __url__ = 'http://github.com/bulentozel/omdata'
-__version__ = '0.1.4'
-__build__ = 0x100003
 __author__ = 'Bulent Ozel'
 __author_email__ = 'bulent.ozel@gmail.com'
 __license__ = 'Apache2'

@@ -92,3 +92,6 @@ ENV/
 
 # MAC environment
 .DS_Store
+
+# Other Exclude List
+update_version.py
