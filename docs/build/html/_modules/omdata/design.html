@@ -37,8 +37,7 @@
 <span class="sd">editing interface to a predesigned JSON schema.</span>
 
 <span class="sd">Todo:</span>
-<span class="sd">    * Do the Sphinx documentation</span>
-<span class="sd">    * Improve inplace editing methods.</span>
+<span class="sd">    * Improve the inplace editing methods.</span>
 <span class="sd">    </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -182,12 +181,12 @@
     <span class="sd">&quot;&quot;&quot;OpenMaker data schema error for unknown object types.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        msg (:obj:`str`)): Human readable string describing the exception.</span>
 <span class="sd">        code (:obj:`int`, optional): Error code.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        msg (str): Human readable string describing the exception.</span>
-<span class="sd">        code (int): Exception error code.</span>
+<span class="sd">        msg (:obj:`str`): Human readable string describing the exception.</span>
+<span class="sd">        code (:obj:`int`): Exception error code.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -199,12 +198,12 @@
     <span class="sd">&quot;&quot;&quot;OpenMaker data schema error for invalid key types.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        msg (str): Human readable string describing the exception.</span>
+<span class="sd">        msg (:obj:`str`): Human readable string describing the exception.</span>
 <span class="sd">        code (:obj:`int`, optional): Error code.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        msg (str): Human readable string describing the exception.</span>
-<span class="sd">        code (int): Exception error code.</span>
+<span class="sd">        msg (:obj:`str`): Human readable string describing the exception.</span>
+<span class="sd">        code (:obj:`int`): Exception error code.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -239,7 +238,7 @@
 <span class="sd">            fname (:obj:`dict`): The JSON document in dictionary format.</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True.</span>
+<span class="sd">            (:obj:`bool`): True.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
@@ -250,7 +249,7 @@
         <span class="sd">&quot;&quot;&quot;The method loads a schema from a file path to a JSON schema file.</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
-<span class="sd">            fname (str): The file path.</span>
+<span class="sd">            fname (:obj:`str`): The file path.</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if successful, False otherwise.</span>
@@ -296,7 +295,7 @@
 <span class="sd">        Note:</span>
 <span class="sd">            It must be called everytime a non-empty schema is loaded.                    </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            (Bool): Returns true when succeeded.</span>
+<span class="sd">            (:obJ:`Bool`): Returns true when succeeded.</span>
 <span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>            
         <span class="bp">self</span><span class="o">.</span><span class="n">_paths</span> <span class="o">=</span> <span class="n">Schema</span><span class="o">.</span><span class="n">_get_fields_from_schema</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[])</span>
@@ -376,7 +375,8 @@
             <span class="k">raise</span> <span class="n">OMSchemaKeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;integer&#39;</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">]:</span>
-            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;$id&#39;</span><span class="p">],</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]))</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;$id&#39;</span><span class="p">],</span><span class="n">desc</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">fields</span>
 
         <span class="k">if</span> <span class="n">schema</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;array&#39;</span><span class="p">:</span>

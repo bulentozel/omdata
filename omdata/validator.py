@@ -5,7 +5,9 @@ This module, until a fully custom version of it to be developed, uses jsonschema
 package for validation of survey response against openmaker design.
 
 Example:
-        $ python validator.py -q ../docs/omsurvey.json -s ../docs/omsurvey.schema 
+    .. code-block:: bash
+
+        python validator.py -q omsurvey.json -s omsurvey.schema
 
 Todo:
     * Do the Sphinx documentation
@@ -24,7 +26,7 @@ def check_json(survey, schema):
         schema (:obj:`JSON`): A JSON schema.
 
     Returns:
-        (`bool`): Returns `True` when it is validated.
+        (:obj:`bool`): Returns `True` when it is validated.
 
     """
     validity = True
@@ -43,7 +45,7 @@ def check_file(survey_file, schema_file):
         schema (:obj:`string`): A JSON schema file.
 
     Returns:
-        (bool): True.
+        (:obj:`bool`): True.
 
     """
 
@@ -86,4 +88,4 @@ def main(argv):
     
 if __name__ == '__main__':
     main(sys.argv[1:])
-    
+

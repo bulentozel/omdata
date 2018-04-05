@@ -5,8 +5,7 @@ This module contains functions and classes which can be used an
 editing interface to a predesigned JSON schema.
 
 Todo:
-    * Do the Sphinx documentation
-    * Improve inplace editing methods.
+    * Improve the inplace editing methods.
     
 """
 
@@ -150,12 +149,12 @@ class OMSchemaUnknown(Exception):
     """OpenMaker data schema error for unknown object types.
 
     Args:
-        msg (str): Human readable string describing the exception.
+        msg (:obj:`str`)): Human readable string describing the exception.
         code (:obj:`int`, optional): Error code.
 
     Attributes:
-        msg (str): Human readable string describing the exception.
-        code (int): Exception error code.
+        msg (:obj:`str`): Human readable string describing the exception.
+        code (:obj:`int`): Exception error code.
 
     """
 
@@ -167,12 +166,12 @@ class OMSchemaKeyError(Exception):
     """OpenMaker data schema error for invalid key types.
 
     Args:
-        msg (str): Human readable string describing the exception.
+        msg (:obj:`str`): Human readable string describing the exception.
         code (:obj:`int`, optional): Error code.
 
     Attributes:
-        msg (str): Human readable string describing the exception.
-        code (int): Exception error code.
+        msg (:obj:`str`): Human readable string describing the exception.
+        code (:obj:`int`): Exception error code.
 
     """
 
@@ -207,7 +206,7 @@ class Schema(object):
             fname (:obj:`dict`): The JSON document in dictionary format.
             
         Returns:
-            bool: True.
+            (:obj:`bool`): True.
 
         """
         self.schema = schema
@@ -218,7 +217,7 @@ class Schema(object):
         """The method loads a schema from a file path to a JSON schema file.
         
         Args:
-            fname (str): The file path.
+            fname (:obj:`str`): The file path.
             
         Returns:
             bool: True if successful, False otherwise.
@@ -264,7 +263,7 @@ class Schema(object):
         Note:
             It must be called everytime a non-empty schema is loaded.                    
         Returns:
-            (Bool): Returns true when succeeded.
+            (:obJ:`Bool`): Returns true when succeeded.
             
         """            
         self._paths = Schema._get_fields_from_schema(self.schema, fields = [])
@@ -344,7 +343,8 @@ class Schema(object):
             raise OMSchemaKeyError(msg,code)
 
         if schema['type'] in ['integer', 'string']:
-            fields.append((schema['$id'],schema['description']))
+            desc = schema['description'] if 'description' in schema.keys() else ''
+            fields.append((schema['$id'],desc))
             return fields
 
         if schema['type'] == 'array':

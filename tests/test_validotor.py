@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The unit testing module.
+"""The unit testing suite for the validator.
 
 """
 import unittest

@@ -42,8 +42,7 @@ editing interface to a predesigned JSON schema.</p>
 <dl class="docutils">
 <dt>Todo:</dt>
 <dd><ul class="first last simple">
-<li>Do the Sphinx documentation</li>
-<li>Improve inplace editing methods.</li>
+<li>Improve the inplace editing methods.</li>
 </ul>
 </dd>
 </dl>
@@ -54,11 +53,11 @@ editing interface to a predesigned JSON schema.</p>
 <p>OpenMaker data schema error for invalid key types.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>msg (str): Human readable string describing the exception.
+<dd>msg (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>): Human readable string describing the exception.
 code (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional): Error code.</dd>
 <dt>Attributes:</dt>
-<dd>msg (str): Human readable string describing the exception.
-code (int): Exception error code.</dd>
+<dd>msg (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>): Human readable string describing the exception.
+code (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>): Exception error code.</dd>
 </dl>
 </dd></dl>
 
@@ -69,11 +68,11 @@ code (int): Exception error code.</dd>
 <p>OpenMaker data schema error for unknown object types.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>msg (str): Human readable string describing the exception.
+<dd>msg (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>)): Human readable string describing the exception.
 code (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional): Error code.</dd>
 <dt>Attributes:</dt>
-<dd>msg (str): Human readable string describing the exception.
-code (int): Exception error code.</dd>
+<dd>msg (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>): Human readable string describing the exception.
+code (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>): Exception error code.</dd>
 </dl>
 </dd></dl>
 
@@ -133,7 +132,7 @@ code (int): Exception error code.</dd>
 <dt>Args:</dt>
 <dd>fname (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a>): The JSON document in dictionary format.</dd>
 <dt>Returns:</dt>
-<dd>bool: True.</dd>
+<dd>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>): True.</dd>
 </dl>
 </dd></dl>
 
@@ -143,7 +142,7 @@ code (int): Exception error code.</dd>
 <dd><p>The method loads a schema from a file path to a JSON schema file.</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>fname (str): The file path.</dd>
+<dd>fname (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>): The file path.</dd>
 <dt>Returns:</dt>
 <dd>bool: True if successful, False otherwise.</dd>
 <dt>Raises:</dt>
@@ -184,7 +183,10 @@ code (int): Exception error code.</dd>
 package for validation of survey response against openmaker design.</p>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd>$ python validator.py -q ../docs/omsurvey.json -s ../docs/omsurvey.schema</dd>
+<dd><div class="first last highlight-bash notranslate"><div class="highlight"><pre><span></span>python validator.py -q omsurvey.json -s omsurvey.schema
+</pre></div>
+</div>
+</dd>
 <dt>Todo:</dt>
 <dd><ul class="first last simple">
 <li>Do the Sphinx documentation</li>
@@ -201,7 +203,7 @@ package for validation of survey response against openmaker design.</p>
 <dd>survey (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>): A JSON data file.
 schema (<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>): A JSON schema file.</dd>
 <dt>Returns:</dt>
-<dd>(bool): True.</dd>
+<dd>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>): True.</dd>
 </dl>
 </dd></dl>
 
@@ -214,7 +216,7 @@ schema (<a class="reference external" href="https://docs.python.org/3/library/st
 <dd>survey (<code class="xref py py-obj docutils literal notranslate"><span class="pre">JSON</span></code>): A JSON object.
 schema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">JSON</span></code>): A JSON schema.</dd>
 <dt>Returns:</dt>
-<dd>(<cite>bool</cite>): Returns <cite>True</cite> when it is validated.</dd>
+<dd>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>): Returns <cite>True</cite> when it is validated.</dd>
 </dl>
 </dd></dl>
 

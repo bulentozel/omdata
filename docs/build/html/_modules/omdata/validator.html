@@ -37,7 +37,9 @@
 <span class="sd">package for validation of survey response against openmaker design.</span>
 
 <span class="sd">Example:</span>
-<span class="sd">        $ python validator.py -q ../docs/omsurvey.json -s ../docs/omsurvey.schema </span>
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        python validator.py -q omsurvey.json -s omsurvey.schema</span>
 
 <span class="sd">Todo:</span>
 <span class="sd">    * Do the Sphinx documentation</span>
@@ -56,7 +58,7 @@
 <span class="sd">        schema (:obj:`JSON`): A JSON schema.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (`bool`): Returns `True` when it is validated.</span>
+<span class="sd">        (:obj:`bool`): Returns `True` when it is validated.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">validity</span> <span class="o">=</span> <span class="kc">True</span>
@@ -75,7 +77,7 @@
 <span class="sd">        schema (:obj:`string`): A JSON schema file.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (bool): True.</span>
+<span class="sd">        (:obj:`bool`): True.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -118,7 +120,7 @@
     
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-    
+
 </pre></div>
 
           </div>

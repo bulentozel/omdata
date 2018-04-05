@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The unit testing module for :obj:`Schema` querieng methods.
+"""The unit testing suite for the class methods of :obj:`Schema`.
 
 """
 import sys, os
@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath('../'))
 from unittest import TestCase
 from omdata.design import inspect
 
-test_schema_file = "docs/omsurvey.schema"
+test_schema_file = "data/samples/omsurvey.schema"
 params = ['fields-top', 'fields-all', 'fields-required', 'questions']
 
 class TestConsole(TestCase):
