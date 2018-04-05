@@ -1,22 +1,23 @@
 OpenMaker Community Data Standardization
 ========================================
 
-It aims data standardization and interoperability between oinsight modules and its third party clients.
+It aims data standardization and interoperability between oinsight
+modules and its third party clients.
 
+Install
+-------
 
-### Install
+.. code:: bash
 
-```bash
-`[sudo] pip install omdata`
-```
+    `[sudo] pip install omdata`
 
-### Usage
+Usage
+-----
 
-```python
->>> import omdata
-```
+.. code:: python
 
-Learn more about the [OpenMaker project](http://openmaker.eu/).
+    >>> import omdata
 
----------------
+Learn more about the `OpenMaker project <http://openmaker.eu/>`__.
 
+--------------
