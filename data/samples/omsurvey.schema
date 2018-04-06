@@ -1,5 +1,5 @@
 {
-    "$id": "https://github.com/bulentozel/OpenMaker/blob/master/DataSchemas/OMSurvey/omsurvey_example.json",
+    "$id": "https://github.com/bulentozel/omdata/blob/master/data/samples/omsurvey.json",
     "type": "object",
     "definitions": {},
     "$schema": "http://json-schema.org/draft-07/schema#",
