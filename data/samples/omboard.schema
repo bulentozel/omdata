@@ -1,0 +1,181 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "required":["name","surname","email","community affiliations","profile"],
+    "maxProperties":10,
+  "properties": {
+    "name": {
+      "$id": "/properties/name",
+      "type": "string",
+      "title": "The Name Schema ",
+      "description":"Name",
+      "default": "",
+      "examples": [
+        "Bulent"
+      ]
+    },
+    "surname": {
+      "$id": "/properties/surname",
+      "type": "string",
+      "title": "The Surname Schema ",
+      "description":"Surname",
+      "default": "",
+      "examples": [
+        "Ozel"
+      ]
+    },
+    "email": {
+      "$id": "/properties/email",
+      "type": "string",
+      "title": "The Email Schema ",
+      "description":"Email",
+      "default": "",
+      "examples": [
+        "bulent.ozel@gmil.com"
+      ]
+    },
+    "linkedin": {
+      "$id": "/properties/linkedin",
+      "type": "string",
+      "title": "The Linkedin Schema ",
+      "description":"LinkedIn",
+      "default": "",
+      "examples": [
+        "https://www.linkedin.com/in/bulent-ozel-70b89b26/"
+      ]
+    },
+    "twitter": {
+      "$id": "/properties/twitter",
+      "type": "string",
+      "title": "The Twitter Schema ",
+      "description":"Twitter",
+      "default": "",
+      "examples": [
+        "bulentozel"
+      ]
+    },
+    "community affiliations": {
+      "$id": "/properties/community affiliations",
+      "type": "array",
+      "items": {
+        "$id": "/properties/community affiliations/items",
+        "type": "object",
+        "properties": {
+          "name": {
+            "$id": "/properties/community affiliations/items/properties/name",
+            "type": "string",
+            "title": "The Name Schema ",
+            "description":"Community Name",
+            "default": "",
+            "examples": [
+              "Impact Hub Amsterdam"
+            ]
+          },
+          "city": {
+            "$id": "/properties/community affiliations/items/properties/city",
+            "type": "string",
+            "title": "The City Schema ",
+            "description":"City",
+            "default": "",
+            "examples": [
+              "Amsterdam"
+            ]
+          },
+          "country": {
+            "$id": "/properties/community affiliations/items/properties/country",
+            "type": "string",
+            "title": "The Country Schema ",
+            "description":"Country",
+            "default": "",
+            "examples": [
+              "NL"
+            ]
+          }
+        }
+      }
+    },
+    "profile": {
+      "$id": "/properties/profile",
+      "type": "object",
+      "properties": {
+        "domains": {
+          "$id": "/properties/profile/properties/domains",
+          "type": "array",
+          "items": {
+            "$id": "/properties/profile/properties/domains/items",
+            "type": "string",
+            "title": "The 0th Schema ",
+            "description":"Domain",
+            "default": "",
+            "examples": [
+              "IT",
+              "Community"
+            ]
+          }
+        },
+        "categories": {
+          "$id": "/properties/profile/properties/categories",
+          "type": "array",
+          "items": {
+            "$id": "/properties/profile/properties/categories/items",
+            "type": "string",
+            "title": "The 0th Schema ",
+            "description":"Area",
+            "default": "",
+            "examples": [
+              "Electronics: DIY Electronics",
+              "Sharing: Blogs"
+            ]
+          }
+        },
+        "technologies": {
+          "$id": "/properties/profile/properties/technologies",
+          "type": "array",
+          "items": {
+            "$id": "/properties/profile/properties/technologies/items",
+            "type": "string",
+            "title": "The 0th Schema ",
+            "description":"Technology",
+            "default": "",
+            "examples": [
+              "Arduino",
+              "Wordpress"
+            ]
+          }
+        },
+        "skills": {
+          "$id": "/properties/profile/properties/skills",
+          "type": "array",
+          "items": {
+            "$id": "/properties/profile/properties/skills/items",
+            "type": "string",
+            "title": "The 0th Schema ",
+            "description":"Skill",
+            "default": "",
+            "examples": [
+              "Coding: C",
+              "Writing"
+            ]
+          }
+        }
+      }
+    },
+    "tags": {
+      "$id": "/properties/tags",
+      "type": "array",
+      "items": {
+        "$id": "/properties/tags/items",
+        "type": "string",
+        "title": "The 0th Schema ",
+        "description":"Tag",
+        "default": "",
+        "examples": [
+          "Glass Blowing",
+          "Scrum Master"
+        ]
+      }
+    }
+  }
+}

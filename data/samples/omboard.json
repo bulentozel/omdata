@@ -1,0 +1,41 @@
+{
+  "name": "Bulent",
+  "surname": "Ozel",
+  "email": "bulent.ozel@gmil.com",
+  "linkedin": "https://www.linkedin.com/in/bulent-ozel-70b89b26/",
+  "twitter": "bulentozel",
+  "community affiliations": [
+    {
+      "name": "Impact Hub Amsterdam",
+      "city": "Amsterdam",
+      "country": "NL"
+    },
+    {
+      "name": "Impact Hub Barcelona",
+      "city": "Barcelona",
+      "country": "ES"
+    }
+  ],
+  "profile": {
+    "domains": [
+      "IT",
+      "Community"
+    ],
+    "categories": [
+      "Electronics: DIY Electronics",
+      "Sharing: Blogs"
+    ],
+    "technologies": [
+      "Arduino",
+      "Wordpress"
+    ],
+    "skills": [
+      "Coding: C",
+      "Writing"
+    ]
+  },
+  "tags": [
+    "Glass Blowing",
+    "Scrum Master"
+  ]
+}
