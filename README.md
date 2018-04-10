@@ -60,7 +60,7 @@ In the case of OpenMaker survey data implementation this corresponds to a query 
 ```python
 >>> import omdata
 ```
-#### For the details see the [Jupyter Notebook Tutorial](https://github.com/bulentozel/omdata/blob/master/tutorial.ipynb)
+#### For the details see the tutorial on [Jupyter Notebook](https://github.com/bulentozel/omdata/blob/master/tutorial.ipynb)
 
 ## ToDo
 
