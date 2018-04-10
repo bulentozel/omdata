@@ -90,15 +90,15 @@ In other applications
 
     >>> import omdata
 
-For the details see the `Jupyter Notebook Tutorial <https://github.com/bulentozel/omdata/blob/master/tutorial.ipynb>`__
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For the details see the tutorial on `Jupyter Notebook <https://github.com/bulentozel/omdata/blob/master/tutorial.ipynb>`__
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ToDo
 ----
 
 -  Publishing the Docstring documentation on GitHub pages
--  Editing functionalities on a given schema file
--  Update test suits for command-line entry points.
+-  Adding editing functionalities on a given schema file
+-  Updating the test suits for command-line entry points.
 
 +--------------------------------------------------------------+
 | Learn more about the OpenMaker project: http://openmaker.eu/ |
