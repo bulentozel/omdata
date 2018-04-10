@@ -65,8 +65,8 @@ In the case of OpenMaker survey data implementation this corresponds to a query 
 ## ToDo
 
 * Publishing the Docstring documentation on GitHub pages
-* Editing functionalities on a given schema file
-* Update test suits for command-line entry points.
+* Adding editing functionalities on a given schema file
+* Updating the test suits for command-line entry points.
 
 ------------------------------------------------------------
 Learn more about the OpenMaker project: http://openmaker.eu/
